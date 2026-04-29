@@ -41,7 +41,7 @@ def ingest_mt5_trade(event: MT5TradeEvent) -> dict:
                 symbol=mapped_symbol,
                 side=event.side or "BUY",
                 volume=target_volume,
-                sl=event.sl,
+                stopPrice=event.stopPrice,
                 tp=event.tp,
             )
             if result.get("ok"):
@@ -77,7 +77,7 @@ def ingest_mt5_trade(event: MT5TradeEvent) -> dict:
             )
             results.append(result)
 
-        elif event.action == "MODIFY_SLTP":
+        elif event.action == "MODIFY_stopPriceTP":
             link = get_trade_link(event.source_ticket, platform)
             if not link or not link.get("target_position_id"):
                 results.append(
@@ -90,9 +90,9 @@ def ingest_mt5_trade(event: MT5TradeEvent) -> dict:
                 )
                 continue
 
-            result = connector.modify_sl_tp(
+            result = connector.modify_stopPrice_tp(
                 target_position_id=link["target_position_id"],
-                sl=event.sl,
+                stopPrice=event.stopPrice,
                 tp=event.tp,
             )
             upsert_trade_link(

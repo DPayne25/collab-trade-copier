@@ -30,7 +30,7 @@ class DXTradeConnector:
         symbol: str,
         side: str,
         volume: float,
-        sl: float | None,
+        stopPrice: float | None,
         tp: float | None,
     ) -> Dict[str, Any]:
         if not self.token:
@@ -56,10 +56,10 @@ class DXTradeConnector:
             "status": "CLOSED",
         }
 
-    def modify_sl_tp(
+    def modify_stopPrice_tp(
         self,
         target_position_id: str,
-        sl: float | None,
+        stopPrice: float | None,
         tp: float | None,
     ) -> Dict[str, Any]:
         if not self.token:

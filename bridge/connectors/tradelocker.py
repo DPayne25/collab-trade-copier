@@ -1,5 +1,4 @@
-from __future__ import annotations 
-import requests
+from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
@@ -129,7 +128,7 @@ class TradeLockerConnector:
         symbol: str,
         side: str,
         volume: float,
-        sl: float | None,
+        stopPrice: float | None,
         tp: float | None,
     ) -> Dict[str, Any]:
         instrument = self._find_instrument(symbol)
@@ -147,8 +146,8 @@ class TradeLockerConnector:
             "validity": "IOC"
         }
 
-        if sl is not None:
-            payload["stopLoss"] = sl
+        if stopPrice is not None:
+            payload["stopLoss"] = stopPrice
         if tp is not None:
             payload["takeProfit"] = tp
 
@@ -192,7 +191,7 @@ class TradeLockerConnector:
     def modify_sl_tp(
         self,
         target_position_id: str,
-        sl: float | None,
+        stopPrice: float | None,
         tp: float | None,
     ) -> Dict[str, Any]:
         # Keep Stage 1 simple: do this after we confirm real market opens work.

@@ -51,7 +51,7 @@ bool SendJsonToBridge(string json)
    return true;
 }
 
-string BuildOpenEventJson(string sourceTicket, string symbol, string side, double volume, double price, double sl, double tp, long magic, string comment)
+string BuildOpenEventJson(string sourceTicket, string symbol, string side, double volume, double price, double stopPrice, double tp, long magic, string comment)
 {
    string eventId = "mt5-" + sourceTicket + "-OPEN-" + IntegerToString((int)TimeCurrent());
 
@@ -66,7 +66,7 @@ string BuildOpenEventJson(string sourceTicket, string symbol, string side, doubl
       "\"side\":\"" + EscapeJson(side) + "\","
       "\"volume\":" + DoubleToString(volume, 2) + ","
       "\"price\":" + DoubleToString(price, _Digits) + ","
-      "\"sl\":" + DoubleToString(sl, _Digits) + ","
+      "\"stopPrice\":" + DoubleToString(stopPrice, _Digits) + ","
       "\"tp\":" + DoubleToString(tp, _Digits) + ","
       "\"magic\":" + IntegerToString((int)magic) + ","
       "\"comment\":\"" + EscapeJson(comment) + "\","
@@ -95,7 +95,7 @@ string BuildCloseEventJson(string sourceTicket, string symbol)
    return json;
 }
 
-string BuildModifyEventJson(string sourceTicket, string symbol, double sl, double tp)
+string BuildModifyEventJson(string sourceTicket, string symbol, double stopPrice, double tp)
 {
    string eventId = "mt5-" + sourceTicket + "-MODIFY-" + IntegerToString((int)TimeCurrent());
 
@@ -108,7 +108,7 @@ string BuildModifyEventJson(string sourceTicket, string symbol, double sl, doubl
       "\"action\":\"MODIFY_SLTP\","
       "\"symbol\":\"" + EscapeJson(symbol) + "\","
       "\"volume\":0.0,"
-      "\"sl\":" + DoubleToString(sl, _Digits) + ","
+      "\"stopPrice\":" + DoubleToString(stopPrice, _Digits) + ","
       "\"tp\":" + DoubleToString(tp, _Digits) + ","
       "\"timestamp\":\"" + EscapeJson(BuildTimestamp()) + "\""
       "}";

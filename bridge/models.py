@@ -20,7 +20,7 @@ class MT5TradeEvent(BaseModel):
     side: Optional[SideType] = None
     volume: float = 0.0
     price: Optional[float] = None
-    sl: Optional[float] = None
+    stopPrice: Optional[float] = None
     tp: Optional[float] = None
     magic: Optional[int] = None
     comment: Optional[str] = None

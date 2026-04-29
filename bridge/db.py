@@ -37,7 +37,7 @@ def init_db() -> None:
                 symbol TEXT NOT NULL,
                 side TEXT,
                 volume REAL,
-                sl REAL,
+                stopPrice REAL,
                 tp REAL,
                 raw_json TEXT NOT NULL,
                 created_at TEXT NOT NULL
@@ -65,7 +65,7 @@ def insert_trade_event(event: Dict[str, Any]) -> None:
         cur.execute(
             """
             INSERT INTO trade_events (
-                event_id, source_ticket, action, symbol, side, volume, sl, tp, raw_json, created_at
+                event_id, source_ticket, action, symbol, side, volume, stopPrice, tp, raw_json, created_at
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
@@ -75,7 +75,7 @@ def insert_trade_event(event: Dict[str, Any]) -> None:
                 event["symbol"],
                 event.get("side"),
                 event.get("volume"),
-                event.get("sl"),
+                event.get("stopPrice"),
                 event.get("tp"),
                 json.dumps(event, default=str),
                 datetime.utcnow().isoformat(),
