@@ -5,6 +5,7 @@ config = configparser.ConfigParser()
 config.read(Path(__file__).parent.parent / '.config')
 
 url_access_token = "https://demo.tradelocker.com/backend-api/auth/jwt/token" 
+base_url = config['tradelocker']['TL_URL']
 
 # config['tradelocker']['TL_URL']
 
@@ -28,10 +29,6 @@ print(access_token.status_code)
 bearer_authorization = "Bearer {}".format(access_token.json()["accessToken"])
 
 # ===========================================================================================================================================
-# ===========================================================================================================================================
-
-
-# ===========================================================================================================================================
 # All accounts
 # ===========================================================================================================================================
 
@@ -45,14 +42,26 @@ all_accounts = requests.get("{}/backend-api/auth/jwt/all-accounts".format(config
 print(all_accounts.text)
 
 # ===========================================================================================================================================
+# Response configurations
 # ===========================================================================================================================================
 
+ext_response_config = "/backend-api/trade/config"
+
+headers_response_configurations = {
+    "accNum": "1",
+    "accept": "application/json",
+    "authorization": bearer_authorization
+}
+
+response_config = requests.get(f"{base_url}{ext_response_config}", headers=headers_response_configurations)
+
+with open('data/config.json', 'w') as f:
+    json.dump(response_config.json(), f, indent=2)
 
 # ===========================================================================================================================================
 # Order history
 # ===========================================================================================================================================
 
-base_url = config['tradelocker']['TL_URL']
 accountID = config['tradelocker']['TL_ACCOUNT_ID']
 headers_order_history = {
     "accNum": "1",
@@ -61,9 +70,8 @@ headers_order_history = {
 }
 
 
-order_history_get = requests.get(f"{base_url}/backend-api/trade/accounts/{accountID}/ordersHistory", headers=headers_order_history)
+order_history = requests.get(f"{base_url}/backend-api/trade/accounts/{accountID}/ordersHistory", headers=headers_order_history)
 
-order_history = order_history_get.json()
 
-with open('output.json', 'w') as f:
-    json.dump(order_history, f, indent=2)
+with open('data/order_history.json', 'w') as f:
+    json.dump(order_history.json(), f, indent=2)
