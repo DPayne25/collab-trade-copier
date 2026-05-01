@@ -26,7 +26,7 @@ headers = {
     "content-type": "application/json"
 }
 
-access_token = requests.post(f'{base_url}{ext_auth_token}', json=payload, headers=headers)
+access_token = requests.post(f"{base_url}{ext_auth_token}", json=payload, headers=headers)
 
 print(access_token.text)
 print(access_token.json()["accessToken"])
@@ -44,8 +44,6 @@ headers_refresh_token = {
 
 refresh_token_response = requests.post(f"{base_url}{ext_refresh_token}", json=payload_refresh_token, headers=headers_refresh_token)
 
-
-
 # Get List All Accounts
 ext_all_accounts = "/backend-api/auth/jwt/all-accounts"
 
@@ -61,7 +59,7 @@ all_accounts = requests.get(f"{base_url}{ext_all_accounts}", headers=headers_all
 ext_data_headers_config = "/backend-api/trade/config"
 
 headers_response_configurations = {
-    "accNum": "1",
+    "accNum": accNum,
     "accept": "application/json",
     "authorization": bearer_authorization
 }
@@ -75,7 +73,7 @@ with open('data/headers_config.json', 'w') as f:
 ext_account_details = "/backend-api/trade/accounts"
 
 headers_account_details = {
-    "accNum": "1",
+    "accNum": accNum,
     "accept": "application/json",
     "authorization": bearer_authorization
 }
@@ -87,6 +85,7 @@ with open('data/account_details.json', 'w') as f:
 
 # List of Instruments #TODO @AbdulAziz
 
+
 # Get Non-final Orders #TODO @AbdulAziz
 
 
@@ -94,7 +93,7 @@ with open('data/account_details.json', 'w') as f:
 ext_order_history = f"/backend-api/trade/accounts/{accountID}/ordersHistory"
 
 headers_order_history = {
-    "accNum": "1",
+    "accNum": accNum,
     "accept": "application/json",
     "authorization": bearer_authorization
 }
@@ -106,5 +105,29 @@ with open('data/order_history.json', 'w') as f:
     json.dump(orderHistory.json(), f, indent=2)
 
 # Get Open Positions
+ext_open_positions = f"/backend-api/trade/accounts/{accountID}/positions"
+
+headers_open_positions = {
+    "accNum": accNum,
+    "accept": "application/json",
+    "authorization": bearer_authorization
+}
+
+open_positions = requests.get(f"{base_url}{ext_open_positions}", headers=headers_open_positions)
+
+with open('data/open_positions.json', 'w') as f:
+    json.dump(open_positions.json(), f, indent=2)
 
 # Get Account's Current Details
+ext_account_current_details = f"/backend-api/trade/accounts/{accountID}/state"
+
+headers_account_current_details = {
+    "accNum": accNum,
+    "accept": "application/json",   
+    "authorization": bearer_authorization
+}
+
+account_current_details = requests.get(f"{base_url}{ext_account_current_details}", headers=headers_account_current_details)
+
+with open('data/account_current_details.json', 'w') as f:
+    json.dump(account_current_details.json(), f, indent=2)  
