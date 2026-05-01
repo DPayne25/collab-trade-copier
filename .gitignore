@@ -2,3 +2,4 @@
 /configs/accounts.json
 /.config
 /data/*
+/.local

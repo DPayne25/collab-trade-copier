@@ -4,48 +4,61 @@ from pathlib import Path
 config = configparser.ConfigParser()
 config.read(Path(__file__).parent.parent / '.config')
 
-url_access_token = "https://demo.tradelocker.com/backend-api/auth/jwt/token" 
-base_url = config['tradelocker']['TL_URL']
+accNum = "1"
 
-# config['tradelocker']['TL_URL']
+base_url = config['tradelocker']['TL_URL']
+email = config['tradelocker']['TL_EMAIL']
+password = config['tradelocker']['TL_PASSWORD']
+server = config['tradelocker']['TL_SERVER']
+accountID = config['tradelocker']['TL_ACCOUNT_ID']
+
+
+# Fetch JWT Token
+ext_auth_token = "/backend-api/auth/jwt/token"
 
 payload = {
-    "email": config['tradelocker']['TL_EMAIL'],
-    "password": config['tradelocker']['TL_PASSWORD'],
-    "server": config['tradelocker']['TL_SERVER']
+    "email": email,
+    "password": password,
+    "server": server
 }
 headers = {
     "accept": "application/json",
     "content-type": "application/json"
 }
 
-# Access token
-
-access_token = requests.post(url_access_token, json=payload, headers=headers)
+access_token = requests.post(f'{base_url}{ext_auth_token}', json=payload, headers=headers)
 
 print(access_token.text)
 print(access_token.json()["accessToken"])
-print(access_token.status_code)
 bearer_authorization = "Bearer {}".format(access_token.json()["accessToken"])
 
-# ===========================================================================================================================================
-# All accounts
-# ===========================================================================================================================================
+# Refresh JWT Token #TODO @AbdulAziz
+ext_refresh_token = "/backend-api/auth/jwt/refresh"
+
+payload_refresh_token = {"refreshToken": access_token.json()["refreshToken"]}
+
+headers_refresh_token = {
+    "accept": "application/json",
+    "content-type": "application/json"
+}
+
+refresh_token_response = requests.post(f"{base_url}{ext_refresh_token}", json=payload_refresh_token, headers=headers_refresh_token)
+
+
+
+# Get List All Accounts
+ext_all_accounts = "/backend-api/auth/jwt/all-accounts"
 
 headers_all_accounts = {
     "accept": "application/json",
     "authorization": bearer_authorization
 }
 
+all_accounts = requests.get(f"{base_url}{ext_all_accounts}", headers=headers_all_accounts)
 
-all_accounts = requests.get("{}/backend-api/auth/jwt/all-accounts".format(config['tradelocker']['TL_URL']), headers=headers_all_accounts)
-print(all_accounts.text)
 
-# ===========================================================================================================================================
-# Response configurations
-# ===========================================================================================================================================
-
-ext_response_config = "/backend-api/trade/config"
+# Get Data Configurations (headers of for the data)
+ext_data_headers_config = "/backend-api/trade/config"
 
 headers_response_configurations = {
     "accNum": "1",
@@ -53,25 +66,45 @@ headers_response_configurations = {
     "authorization": bearer_authorization
 }
 
-response_config = requests.get(f"{base_url}{ext_response_config}", headers=headers_response_configurations)
+response_config = requests.get(f"{base_url}{ext_data_headers_config}", headers=headers_response_configurations)
 
-with open('data/config.json', 'w') as f:
+with open('data/headers_config.json', 'w') as f:
     json.dump(response_config.json(), f, indent=2)
 
-# ===========================================================================================================================================
-# Order history
-# ===========================================================================================================================================
+# Get Account Details
+ext_account_details = "/backend-api/trade/accounts"
 
-accountID = config['tradelocker']['TL_ACCOUNT_ID']
+headers_account_details = {
+    "accNum": "1",
+    "accept": "application/json",
+    "authorization": bearer_authorization
+}
+
+account_details = requests.get(f"{base_url}{ext_account_details}", headers=headers_account_details)
+
+with open('data/account_details.json', 'w') as f:
+    json.dump(account_details.json(), f, indent=2)
+
+# List of Instruments #TODO @AbdulAziz
+
+# Get Non-final Orders #TODO @AbdulAziz
+
+
+# Get Order history
+ext_order_history = f"/backend-api/trade/accounts/{accountID}/ordersHistory"
+
 headers_order_history = {
     "accNum": "1",
     "accept": "application/json",
     "authorization": bearer_authorization
 }
 
-
-order_history = requests.get(f"{base_url}/backend-api/trade/accounts/{accountID}/ordersHistory", headers=headers_order_history)
+orderHistory = requests.get(f"{base_url}{ext_order_history}", headers=headers_order_history)
 
 
 with open('data/order_history.json', 'w') as f:
-    json.dump(order_history.json(), f, indent=2)
+    json.dump(orderHistory.json(), f, indent=2)
+
+# Get Open Positions
+
+# Get Account's Current Details
