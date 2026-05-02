@@ -6,11 +6,11 @@ config.read(Path(__file__).parent.parent / '.config')
 
 accNum = "1"
 
-base_url = config['tradelocker']['TL_URL']
-email = config['tradelocker']['TL_EMAIL']
-password = config['tradelocker']['TL_PASSWORD']
-server = config['tradelocker']['TL_SERVER']
-accountID = config['tradelocker']['TL_ACCOUNT_ID']
+base_url = config['tradelocker-demo-1']['TL_URL']
+email = config['tradelocker-demo-1']['TL_EMAIL']
+password = config['tradelocker-demo-1']['TL_PASSWORD']
+server = config['tradelocker-demo-1']['TL_SERVER']
+accountID = config['tradelocker-demo-1']['TL_ACCOUNT_ID']
 
 
 # Fetch JWT Token
