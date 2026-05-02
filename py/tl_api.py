@@ -10,7 +10,7 @@ base_url = config['tradelocker-demo-1']['TL_URL']
 email = config['tradelocker-demo-1']['TL_EMAIL']
 password = config['tradelocker-demo-1']['TL_PASSWORD']
 server = config['tradelocker-demo-1']['TL_SERVER']
-accountID = config['tradelocker-demo-1']['TL_ACCOUNT_ID']
+accountID = int(config['tradelocker-demo-1']['TL_ACCOUNT_ID'])
 
 
 # Fetch JWT Token
