@@ -80,7 +80,7 @@ headers_account_details = {
 
 account_details = requests.get(f"{base_url}{ext_account_details}", headers=headers_account_details)
 
-with open('data/account_details.json', 'w') as f:
+with open(f'data/{accountID}_account_details.json', 'w') as f:
     json.dump(account_details.json(), f, indent=2)
 
 # List of Instruments #TODO @AbdulAziz
@@ -101,7 +101,7 @@ headers_order_history = {
 orderHistory = requests.get(f"{base_url}{ext_order_history}", headers=headers_order_history)
 
 
-with open('data/order_history.json', 'w') as f:
+with open(f'data/{accountID}_order_history.json', 'w') as f:
     json.dump(orderHistory.json(), f, indent=2)
 
 # Get Open Positions
@@ -115,7 +115,7 @@ headers_open_positions = {
 
 open_positions = requests.get(f"{base_url}{ext_open_positions}", headers=headers_open_positions)
 
-with open('data/open_positions.json', 'w') as f:
+with open(f'data/{accountID}_open_positions.json', 'w') as f:
     json.dump(open_positions.json(), f, indent=2)
 
 # Get Account's Current Details
@@ -129,5 +129,5 @@ headers_account_current_details = {
 
 account_current_details = requests.get(f"{base_url}{ext_account_current_details}", headers=headers_account_current_details)
 
-with open('data/account_current_details.json', 'w') as f:
+with open(f'data/{accountID}_account_current_details.json', 'w') as f:
     json.dump(account_current_details.json(), f, indent=2)  
