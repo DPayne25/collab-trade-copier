@@ -222,7 +222,7 @@ with open(f'data/{accountID}_{sessionStatusId}_allowed_orders_operation.json', '
 # GET Current Daily Bar
 barType = "ASK" # Enum: ASK, BID, TRADE
 
-ext_current_daily_bar = f"backend-api/trade/dailyBar?routId={info_route_id}&barType={barType}&tradableInstrumentId={tradableInstrumentId}"
+ext_current_daily_bar = f"backend-api/trade/dailyBar?routeId={info_route_id}&barType={barType}&tradableInstrumentId={tradableInstrumentId}"
 
 headers_current_daily_bar = {
     "accNum": accNum,

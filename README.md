@@ -10,14 +10,13 @@ A *multi-account execution engine* for Forex trading. The core objective of this
 
 # Instructions to Test
 
-Run the following: 
+Run the following:
 
 ## Linux
 
 ```bash
 wsl
-
 python3 -m pip install .venv
-source venv/bin/activate
+source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
