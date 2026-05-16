@@ -1,4 +1,5 @@
-import requests, configparser, json, Utc
+import requests, configparser, json
+from datetime import datetime, timezone
 from pathlib import Path
 
 config = configparser.ConfigParser()
@@ -291,7 +292,7 @@ payload_new_order = {
     "tradableInstrumentId": tradableInstrumentId
 }
 headers_new_order = {
-    "accNum": "accNum",
+    "accNum": accNum,
    # "developer-api-key": "string", #TODO
     "accept": "application/json",
     "content-type": "application/json",
@@ -394,6 +395,7 @@ payload_modify_position = {
 headers_modify_position = {
     "accNum": accNum,
    # "developer-api-key": "",
+   "accept": "application/json",
    "content-type": "application/json",
    "authorization": bearer_authorization
 }
