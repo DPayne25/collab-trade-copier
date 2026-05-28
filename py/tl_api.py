@@ -44,7 +44,13 @@ headers_refresh_token = {
 
 refresh_token_response = requests.post(f"{base_url}{ext_refresh_token}", json=payload_refresh_token, headers=headers_refresh_token)
 
+print(f"access: {access_token.text}\n")
 
+print(f"refresh: {refresh_token_response.status_code}")
+
+print(refresh_token_response.text)
+
+'''
 # Get List All Accounts
 ext_all_accounts = "backend-api/auth/jwt/all-accounts"
 
@@ -233,13 +239,13 @@ headers_current_daily_bar = {
 
 current_daily_bar = requests.get(f"{base_url}{ext_current_daily_bar}", headers=headers_current_daily_bar)
 
-with open(f'data/{accountID}_{Utc().now().date()}_daily_bar.json', 'w') as f:
+with open(f'data/{accountID}_{datetime.now().date()}_daily_bar.json', 'w') as f:
     json.dump(current_daily_bar.json(), f, indent=2)
 
 # GET Historical Bars
 resolution = "1D" # Enum: 1M, 1W, 1D, 4H, 1H, 30m, 15m, 5m, 1m
 from_date = 1777608000000 # Unix millisecond UTC
-to_date = Utc.now().timestamp() * 1000
+to_date = datetime.now().timestamp() * 1000
 
 
 ext_historical_bars = f"backend-api/trade/history?routeId={trade_route_id}&from={from_date}&resolution={resolution}&to={to_date}&tradableInstrumentId={tradableInstrumentId}"
@@ -401,3 +407,4 @@ headers_modify_position = {
 }
 
 modify_position = requests.patch(f"{base_url}{ext_modify_position}", json=payload_modify_position, headers=headers_modify_position)
+'''
